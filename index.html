@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Typing Speed Analyzer</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="container">
+
+        <h1>Typing Speed Analyzer</h1>
+
+        <button id="settings-btn" class="settings-btn">
+            ⚙ Settings
+        </button>
+
+        <div class="difficulty">
+
+            <button class="difficulty-btn active" data-difficulty="easy">
+                Easy
+            </button>
+
+            <button class="difficulty-btn" data-difficulty="medium">
+                Medium
+            </button>
+
+            <button class="difficulty-btn" data-difficulty="hard">
+                Hard
+            </button>
+
+        </div>
+
+        <div class="duration">
+
+            <button class="duration-btn" data-time="15">
+                15s
+            </button>
+
+            <button class="duration-btn" data-time="30">
+                30s
+            </button>
+
+            <button class="duration-btn active" data-time="60">
+                60s
+            </button>
+
+            <button class="duration-btn" data-time="120">
+                120s
+            </button>
+
+        </div>
+
+        <div class="stats">
+
+            <div class="stat">
+                <span class="label">WPM</span>
+                <span id="wpm">0</span>
+            </div>
+
+            <div class="stat">
+                <span class="label">Accuracy</span>
+                <span id="accuracy">0%</span>
+            </div>
+
+            <div class="stat">
+                <span class="label">Time</span>
+                <span id="timer">60s</span>
+            </div>
+
+            <div class="stat">
+                <span class="label">Errors</span>
+                <span id="errors">0</span>
+            </div>
+
+        </div>
+
+        <div id="text-display" class="text-display">
+        </div>
+
+        <textarea
+            id="typing-input"
+            placeholder="Start typing here..."
+            spellcheck="false"
+            disabled
+        ></textarea>
+
+        <button id="restart-btn">Start Test</button>
+
+        <div id="results" class="results hidden">
+
+    <h2>Test Complete 🎉</h2>
+
+    <div class="final-wpm">
+        <span id="final-wpm">0</span>
+        <small>WPM</small>
+    </div>
+
+    <div class="result-stats">
+
+        <div>
+            <span>Accuracy</span>
+            <strong id="final-accuracy">0%</strong>
+        </div>
+
+        <div>
+            <span>Errors</span>
+            <strong id="final-errors">0</strong>
+        </div>
+
+        <div>
+            <span>Characters</span>
+            <strong id="final-characters">0</strong>
+        </div>
+
+        <div>
+            <span>Time</span>
+            <strong id="final-time">0s</strong>
+        </div>
+
+        </div>
+
+            <button id="try-again-btn">Try Again</button>
+
+        </div>
+    </main>
+
+    <div id="settings-panel" class="settings-panel hidden">
+
+    <div class="settings-header">
+        <h2>Settings</h2>
+
+        <button id="close-settings">
+            ✕
+        </button>
+    </div>
+
+    <div class="setting-item">
+
+        <div>
+            <strong>Dark Mode</strong>
+            <p>Use a darker appearance.</p>
+        </div>
+
+        <label class="switch">
+            <input type="checkbox" id="dark-mode-toggle">
+            <span class="slider"></span>
+        </label>
+
+    </div>
+
+    <div class="setting-item">
+
+        <div>
+            <strong>Sound</strong>
+            <p>Play a sound when the test finishes.</p>
+        </div>
+
+        <label class="switch">
+            <input type="checkbox" id="sound-toggle">
+            <span class="slider"></span>
+        </label>
+
+    </div>
+
+    <div class="setting-item">
+
+        <div>
+            <strong>Auto Focus</strong>
+            <p>Automatically focus the typing box.</p>
+        </div>
+
+        <label class="switch">
+            <input type="checkbox" id="autofocus-toggle" checked>
+            <span class="slider"></span>
+        </label>
+
+    </div>
+
+    <button id="reset-data-btn" class="danger-btn">
+        Reset All Data
+    </button>
+
+</div>
+
+    <section class="analytics-section">
+
+    <h2>Typing Analytics</h2>
+
+    <div class="analytics-grid">
+
+        <div class="analytics-card">
+            <span class="analytics-label">Best WPM</span>
+            <strong id="best-wpm">0</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span class="analytics-label">Average WPM</span>
+            <strong id="average-wpm">0</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span class="analytics-label">Best Accuracy</span>
+            <strong id="best-accuracy">0%</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span class="analytics-label">Total Tests</span>
+            <strong id="total-tests">0</strong>
+        </div>
+
+        <div class="analytics-card">
+    <span class="analytics-label">Average Accuracy</span>
+    <strong id="average-accuracy">0%</strong>
+</div>
+
+<div class="analytics-card">
+    <span class="analytics-label">Total Errors</span>
+    <strong id="total-errors">0</strong>
+</div>
+
+<div class="analytics-card">
+    <span class="analytics-label">Characters Typed</span>
+    <strong id="total-characters">0</strong>
+</div>
+
+<div class="analytics-card">
+    <span class="analytics-label">Time Spent</span>
+    <strong id="total-time">0m</strong>
+</div>
+
+        <div class="chart-container">
+
+    <h3>WPM Progress</h3>
+
+    <canvas id="wpm-chart"></canvas>
+
+</div>
+
+    </div>
+
+</section>
+
+    <section class="history-section">
+
+    <div class="history-header">
+
+        <h2>Test History</h2>
+
+        <button id="clear-history-btn">
+            Clear History
+        </button>
+
+    </div>
+
+    <div class="history-filters">
+
+    <select id="difficulty-filter">
+        <option value="all">All Difficulties</option>
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+    </select>
+
+    <select id="duration-filter">
+        <option value="all">All Durations</option>
+        <option value="15">15 seconds</option>
+        <option value="30">30 seconds</option>
+        <option value="60">60 seconds</option>
+        <option value="120">120 seconds</option>
+    </select>
+
+</div>
+
+    <div id="history-container">
+
+        <p class="empty-history">
+            No tests completed yet.
+        </p>
+
+    </div>
+
+</section>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
